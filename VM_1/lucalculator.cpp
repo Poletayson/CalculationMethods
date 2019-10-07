@@ -5,12 +5,12 @@ LUCalculator::LUCalculator(QObject *parent): QObject (parent)
 
 }
 
-void LUCalculator::calculate(QVector<float*> a_a, float *b)
+void LUCalculator::calculate(float *b)
 {
     x = new float [n];
     float *ptrY = new float [n];
 
-    //сначала находим вспомогательные y
+    //сначала находим вспомогательные y, сверху вниз
     for (int i = 0; i < n; i++) {
         ptrY[i] = b[i];
         for (int j = 0; j < i; j++) {
@@ -18,7 +18,7 @@ void LUCalculator::calculate(QVector<float*> a_a, float *b)
         }
     }
 
-    //теперь находим все иксы
+    //теперь находим все иксы, снизу вверх
     for (int i = n - 1; i >= 0; i--) {
         x[i] = ptrY[i];
         for (int j = n - 1; j > i; j--) {
@@ -85,7 +85,8 @@ bool LUCalculator::calculateFromFile(QString filename)
     }
 
     luCalculation(a);
-    calculate(a, b);
+    calculate(b);
+    return true;
 }
 
 QString LUCalculator::getInput()

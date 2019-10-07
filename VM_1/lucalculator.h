@@ -14,7 +14,7 @@ class LUCalculator : public QObject
 public:
     LUCalculator(QObject *parent = nullptr);
 
-    void calculate (QVector<float*> a_a, float *b);
+    void calculate (float *b);
     void luCalculation (QVector<float*> a_a);
 public slots:
     bool calculateFromFile (QString filename);
