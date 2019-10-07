@@ -4,17 +4,25 @@
 #include <QVector>
 #include <QObject>
 #include <QFile>
+#include <QQmlFile>
 #include <QString>
 #include <QStringList>
 
-class LUCalculator
+class LUCalculator : public QObject
 {
+    Q_OBJECT
 public:
-    LUCalculator();
+    LUCalculator(QObject *parent = nullptr);
 
     void calculate (QVector<float*> a_a, float *b);
     void luCalculation (QVector<float*> a_a);
+public slots:
     bool calculateFromFile (QString filename);
+    QString getInput ();
+    QString getLU ();
+    QString getX ();
+
+
 
 private:
     int n;
