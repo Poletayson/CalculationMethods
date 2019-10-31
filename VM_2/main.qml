@@ -29,6 +29,7 @@ ApplicationWindow {
         onAccepted: {
             relaxCalculator.setFromFile(fileUrl.toString())
             calculator.setFromFile(fileUrl.toString())
+            minDiscCalc.setFromFile(fileUrl.toString())
 
             if (radioButtonGauss.checked){
                 textAreaAb.text = calculator.getInput()
@@ -120,11 +121,17 @@ ApplicationWindow {
                 textAreaLU.text = calculator.getLU()
                 textAreaX.text = calculator.getX()
             }
-            else {
+            else if (radioButtonRelax.checked) {
                 relaxCalculator.setW(Number(textFieldW.text.toString()))
                 relaxCalculator.calculate()
                 textAreaLU.text = relaxCalculator.getIterCount()
                 textAreaX.text = relaxCalculator.getX()
+            }
+            else {
+//                relaxCalculator.setW(Number(textFieldW.text.toString()))
+                minDiscCalc.calculate()
+                textAreaLU.text = minDiscCalc.getIterCount()
+                textAreaX.text = minDiscCalc.getX()
             }
         }
     }
@@ -147,19 +154,23 @@ ApplicationWindow {
         }
     }
 
-    ButtonGroup { buttons: columnButtons.children }
+    ButtonGroup {
+        id: bg
+
+        buttons: columnButtons.children
+    }
     Column {
         id: columnButtons
         anchors.right: textAreaLU.right
         anchors.left: textAreaLU.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
-        height: 50
+        height: 75
 
         RadioButton {
             id: radioButtonGauss
-            height: 25
 
+            height: 25
             text: "Метод LU-разложения"
             indicator.width: 15
             indicator.height: 15
@@ -167,9 +178,17 @@ ApplicationWindow {
         }
         RadioButton {
             id: radioButtonRelax
-            height: 25
 
+            height: 25
             text: "Метод релаксации"
+            indicator.width: 15
+            indicator.height: 15
+        }
+        RadioButton {
+            id: radioButtonMinDiscr
+
+            height: 25
+            text: "Метод мин. невязок"
             indicator.width: 15
             indicator.height: 15
         }

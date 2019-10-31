@@ -41,11 +41,12 @@ private:
 //    QVector<double*> b;
 //    QVector<double*> c;
     double *b;
-//    QVector<float*> lu;
+    double *r;      //невязка
     double *x;
     double *oldx;
 
     double differenceDecision ();
+    double maxDiscrepancy ();
     void relaxIteration ();
 };
 

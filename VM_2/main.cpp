@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <lucalculator.h>
 #include <relaxcalculator.h>
+#include <mindiscrepancycalculator.h>
 
 int main(int argc, char *argv[])
 {
@@ -23,8 +24,10 @@ int main(int argc, char *argv[])
 
     LUCalculator *calculator = new LUCalculator ();
     RelaxCalculator *relaxCalc = new RelaxCalculator ();
+    MinDiscrepancyCalculator *minDiscCalc = new MinDiscrepancyCalculator ();
     engine.rootContext()->setContextProperty ("calculator", calculator);
     engine.rootContext()->setContextProperty ("relaxCalculator", relaxCalc);
+    engine.rootContext()->setContextProperty ("minDiscCalc", minDiscCalc);
     engine.load(url);
 
     return app.exec();

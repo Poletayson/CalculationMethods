@@ -1,38 +1,26 @@
-#include "relaxcalculator.h"
+#include "mindiscrepancycalculator.h"
 
-
-RelaxCalculator::RelaxCalculator(QObject *parent): QObject (parent)
+MinDiscrepancyCalculator::MinDiscrepancyCalculator(QObject *parent) : QObject(parent)
 {
 
 }
 
-bool RelaxCalculator::calculateFromFile(QString filename)
-{
-    setFromFile(filename);
-    return calculate();
-}
-
-bool RelaxCalculator::calculate()
+bool MinDiscrepancyCalculator::calculate()
 {
     iteratinCounter = 0;
     for (int i = 0; i < n; i ++) {
         x[i] = i;
     }
-     do {
+    r = new double[n];
+    do {
         iteratinCounter++;
-        for (int i = 0; i < n; i++) {      //копируем новые значения в старые
-           oldx[i] = x[i];
-        }
-        relaxIteration();
+        minDiscrIteration();
+    }  while (maxDiscrepancy() > EPSILON);
 
-    }  while (differenceDecision() > EPSILON);
-
-//     luCalculation(a);
-//     calculate(b);
     return true;
 }
 
-bool RelaxCalculator::setFromFile(QString filename)
+bool MinDiscrepancyCalculator::setFromFile(QString filename)
 {
     QFile file (QQmlFile::urlToLocalFileOrQrc(filename));
      file.open(QFile::ReadOnly);
@@ -57,32 +45,7 @@ bool RelaxCalculator::setFromFile(QString filename)
      }
 }
 
-void RelaxCalculator::setBC()
-{
-
-}
-
-double RelaxCalculator::getW() const
-{
-    return W;
-}
-
-void RelaxCalculator::setW(double value)
-{
-    W = value;
-}
-
-int RelaxCalculator::getIteratinCounter() const
-{
-    return iteratinCounter;
-}
-
-double RelaxCalculator::getEPSILON() const
-{
-    return EPSILON;
-}
-
-QString RelaxCalculator::getInput()
+QString MinDiscrepancyCalculator::getInput()
 {
     QString Out = "Система уравнений:\n";
     for (int i = 0; i < n; i ++) {
@@ -94,7 +57,7 @@ QString RelaxCalculator::getInput()
     return Out;
 }
 
-QString RelaxCalculator::getX()
+QString MinDiscrepancyCalculator::getX()
 {
     QString Out = "X:\n";
     for (int i = 0; i < n; i ++) {
@@ -103,27 +66,58 @@ QString RelaxCalculator::getX()
     return Out;
 }
 
-QString RelaxCalculator::getIterCount()
+QString MinDiscrepancyCalculator::getIterCount()
 {
     return "Число итераций: " + QString::number(iteratinCounter);
 }
 
-
-//разница между решениями
-double RelaxCalculator::differenceDecision()
+void MinDiscrepancyCalculator::mulMatrixVector(QVector<double *> m, double *v, double *res)
 {
-    double maxDiff = 0;
     double tmp;
-    for (int i = 0; i < n; i++)
-    {
-        tmp = abs(x[i] - oldx[i]);
-        if (tmp > maxDiff)
-            maxDiff = tmp;
+    for (int i = 0; i < n; i++){
+        tmp = 0;
+        for (int j = 0; j < n; j++){
+            tmp += m[i][j] * v[j];
+        }
+        res[i] = tmp;
     }
-    return maxDiff;
 }
 
-double RelaxCalculator::maxDiscrepancy()
+void MinDiscrepancyCalculator::subVectors(double *v1, double *v2, double *res)
+{
+    for (int i = 0; i < n; i++){
+        res[i] = v1[i] - v2[i];
+    }
+}
+
+double MinDiscrepancyCalculator::scalarMul(double *v1, double *v2)
+{
+    double scalMul = 0;
+    for (int i = 0; i < n; i++){
+        scalMul += v1[i] * v2[i];
+    }
+    return scalMul;
+}
+
+void MinDiscrepancyCalculator::setDiscrepancy()
+{
+    mulMatrixVector(a, x, r);
+    subVectors(r, b, r);
+}
+
+void MinDiscrepancyCalculator::minDiscrIteration()
+{
+    setDiscrepancy();   //считаем невязки
+    double *tmp = new double [n];
+    mulMatrixVector(a, r, tmp);
+    t = scalarMul(tmp, r) / scalarMul(tmp, tmp);
+
+    for (int i = 0; i < n; i++){
+        x[i] = x[i] - t * r[i];
+    }
+}
+
+double MinDiscrepancyCalculator::maxDiscrepancy()
 {
     double maxDiscr = 0;
     double tmp;
@@ -134,19 +128,4 @@ double RelaxCalculator::maxDiscrepancy()
             maxDiscr = tmp;
     }
     return maxDiscr;
-}
-
-void RelaxCalculator::relaxIteration()
-{
-    double ptrSum;
-    //double ajk;
-    for (int i = 0; i < n; i++){
-        ptrSum = 0;
-        for (int j = 0; j < n; j++){
-            if (i != j){
-                ptrSum += a[i][j]/a[i][i] * x[j];
-            }
-        }
-        x[i] = (1 - W) * x[i] + W * (b[i] / a[i][i] - ptrSum);
-    }
 }

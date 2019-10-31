@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         lucalculator.cpp \
         main.cpp \
+        mindiscrepancycalculator.cpp \
         relaxcalculator.cpp
 
 RESOURCES += qml.qrc
@@ -33,4 +34,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     lucalculator.h \
+    mindiscrepancycalculator.h \
     relaxcalculator.h
