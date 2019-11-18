@@ -12,15 +12,15 @@ bool FurieInterpolator::calculate()
     Yout.clear();
     Xout.push_back(Xin[0]);
     Yout.push_back(Yin[0]);
-    QVector <double> Xscaled = Xin;
-    Xscaled[0] = 0;
+//    QVector <double> Xscaled = Xin;
+//    Xscaled[0] = 0;
     for (int i = 1; i < n; i++){    //для всех известных точек
-        Xscaled[i] = (Xscaled[i] - f) / t;
-        double step = (Xscaled[i] - Xscaled[i - 1]) / INTERIUM_COUNT;
+//        Xscaled[i] = (Xscaled[i] - f) / t;
+        double step = (Xin[i] - Xin[i - 1]) / INTERIUM_COUNT;
 
         for (int j = 0; j < INTERIUM_COUNT - 1; j++){   //для всех точек между известными
             double yTmp = 0;
-            double xTmp = Xscaled[i - 1] + step * j;
+            double xTmp = Xin[i - 1] + step * j;
             //суммируем
             for (int q = 0; q < n; q++){
                 yTmp += A[q] * exponent(2 * M_PI * q * xTmp);
@@ -50,6 +50,10 @@ bool FurieInterpolator::setFromFile(QString filename)
      }
      t = Xin[n - 1] - Xin[0];
      f = Xin[0];
+
+     for (int i = 0; i < n; i ++) {
+         Xin[0] = (Xin[0] - f) / t;
+     }
 }
 
 QVector<double> FurieInterpolator::getXout() const
@@ -75,13 +79,18 @@ QString FurieInterpolator::getSolution()
 QVector<double> FurieInterpolator::directTransformation()    //вычисление коэффициентов A
 {
     QVector <double> A;
+    double Re, Im;
     double a;
     for (int i = 0; i < n; i++){
         a = 0;
+        Re = 0;
+        Im = 0;
         for (int j = 0; j < n; j++){
-            a += Yin[j] * exponent(- 2 * M_PI * i * Xin[j]);
+            Re += qCos(- 2 * M_PI * i * Xin[j]) * Yin[j];
+            Im += qSin(- 2 * M_PI * i * Xin[j]) * Yin[j];
+            //a += Yin[j] * exponent(- 2 * M_PI * i * Xin[j]);
         }
-        A.push_back(a / n);
+        A.push_back(qSqrt(Re * Re + Im * Im));//(a / n);
     }
     return A;
 }

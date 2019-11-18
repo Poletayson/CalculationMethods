@@ -1,4 +1,5 @@
-QT += quick
+QT += core gui qml quick charts
+TEMPLATE = app
 
 CONFIG += c++11
 

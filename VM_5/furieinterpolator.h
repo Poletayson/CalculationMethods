@@ -14,16 +14,16 @@ class FurieInterpolator : public QObject
     Q_OBJECT
 public:
     explicit FurieInterpolator(QObject *parent = nullptr);
-    bool calculate ();
-    bool setFromFile (QString filename);
-
-    QVector<double> getXout() const;
-    QVector<double> getYout() const;
 
 signals:
 
 public slots:
+    bool setFromFile (QString filename);
+    bool calculate ();
     QString getSolution ();
+    QVector<double> getXout() const;
+    QVector<double> getYout() const;
+
 private:
     QVector <double> Xin;
     QVector <double> Yin;
