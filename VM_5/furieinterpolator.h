@@ -42,7 +42,7 @@ private:
     Complex IC = Complex (0, 1);
 
 
-    QVector <double> directTransformation ();   //вычисление коэффициентов A
+    QVector <Complex> directTransformation ();   //вычисление коэффициентов A
     double exponent (double fi);
 };
 
