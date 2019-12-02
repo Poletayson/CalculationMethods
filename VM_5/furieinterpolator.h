@@ -8,6 +8,11 @@
 #include <QString>
 #include <QStringList>
 #include <QtMath>
+#include <QtCore>
+
+#include <complex>
+
+typedef std::complex<double> Complex;
 
 class FurieInterpolator : public QObject
 {
@@ -30,9 +35,12 @@ private:
     QVector <double> Xout;
     QVector <double> Yout;
     int n;
-    int INTERIUM_COUNT = 10;   //количество значений между соседними иксами
+    int INTERIUM_COUNT = 5;   //количество значений между соседними иксами
     double t;   //период
+    double st;
     double f;   //смещение
+    Complex IC = Complex (0, 1);
+
 
     QVector <double> directTransformation ();   //вычисление коэффициентов A
     double exponent (double fi);

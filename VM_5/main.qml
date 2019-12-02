@@ -68,6 +68,8 @@ ApplicationWindow {
 
         anchors.fill: parent
 
+        currentIndex: 1
+
         Page {
             id: pagePlans
 
@@ -234,40 +236,43 @@ ApplicationWindow {
                 color: "gray"
             }
 
-//            TextArea {
-//                id: textAreaFurie
+            TextArea {
+                id: textAreaFurie
 
-////                width: parent.width / 2
-//                text: qsTr("")
-//                anchors.right: parent.right
+//                width: parent.width / 2
+                text: qsTr("")
+                anchors.right: parent.right
 //                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: 5
+                anchors.bottom: buttonInterpolate.top
+                width: parent.width / 2
+        //        anchors.bottomMargin: 5
+
 //                anchors.top: parent.top
-//                anchors.margins: 5
-//                anchors.bottom: buttonInterpolate.top
-//        //        anchors.bottomMargin: 5
-
-////                anchors.top: parent.top
-////                anchors.topMargin: 5
-//                background: Rectangle {
-//                    anchors.fill: parent
-//                    color: "white"
-//                }
+//                anchors.topMargin: 5
+                clip: true
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: "white"
+                }
 
 
-//            }
+            }
 
             ChartView {
                 id: chart
 
                 title: "График"
-                anchors.right: parent.right
+//                anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.margins: 5
                 anchors.bottom: buttonInterpolate.top
                 antialiasing: true
 
-                //sc
+                width: parent.width / 2
+
 
                 LineSeries {
                     id: lineInterpolated
@@ -307,7 +312,7 @@ ApplicationWindow {
                         lineInterpolated.append(X[i], Y[i])
                         //lineInterpolated.
                     }
-//                    textAreaFurie.text = furieInterpolator.getSolution()
+                    textAreaFurie.text = furieInterpolator.getSolution()
 
                 }
             }
