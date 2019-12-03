@@ -28,13 +28,15 @@ public slots:
     QString getSolution ();
     QVector<double> getXout() const;
     QVector<double> getYout() const;
+    QVector<double> getYRight() const;
 
 private:
     QVector <double> Xin;
     QVector <double> Yin;
     QVector <double> Xout;
     QVector <double> Yout;
-    int n;
+    int n = 21;
+    int N;
     int INTERIUM_COUNT = 5;   //количество значений между соседними иксами
     double t;   //период
     double st;
@@ -44,6 +46,7 @@ private:
 
     QVector <Complex> directTransformation ();   //вычисление коэффициентов A
     double exponent (double fi);
+    double absComplex (Complex c);
 };
 
 #endif // FURIEINTERPOLATOR_H

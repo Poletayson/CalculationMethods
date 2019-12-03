@@ -273,18 +273,31 @@ ApplicationWindow {
 
                 width: parent.width / 2
 
+                ValueAxis {
+                     id: axisX
+                     min:0
+                     max:3.4
+//                     tickCount: xAxisCount+1
+                     labelsColor:"red"}
+                 ValueAxis {
+                     id: axisY
+                     min:0
+                     max: 1.1
+//                     tickCount: 1
+                    }
 
+                 ScatterSeries {
+                     id: scatterSeriesTop
+                     axisX: axisX
+                     axisY: axisY
+                     }
                 LineSeries {
                     id: lineInterpolated
 
-//                    name: "LineSeries"
-//                    XYPoint { x: 0; y: 0 }
-//                    XYPoint { x: 1.1; y: 2.1 }
-//                    XYPoint { x: 1.9; y: 3.3 }
-//                    XYPoint { x: 2.1; y: 2.1 }
-//                    XYPoint { x: 2.9; y: 4.9 }
-//                    XYPoint { x: 3.4; y: 3.0 }
-//                    XYPoint { x: 4.1; y: 3.3 }
+                }
+                LineSeries {
+                    id: lineReal
+
                 }
             }
 
@@ -305,13 +318,20 @@ ApplicationWindow {
                     furieInterpolator.calculate()
                     var X = furieInterpolator.getXout()
                     var Y = furieInterpolator.getYout()
+                    var Yr = furieInterpolator.getYRight()
 
                     lineInterpolated.clear()
                     for (var i = 0; i < X.length; i++){
 
                         lineInterpolated.append(X[i], Y[i])
-                        //lineInterpolated.
                     }
+
+                    lineReal.clear()
+                    for (var i = 0; i < X.length; i++){
+
+                        lineReal.append(X[i], Yr[i])
+                    }
+
                     textAreaFurie.text = furieInterpolator.getSolution()
 
                 }
