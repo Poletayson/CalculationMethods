@@ -35,7 +35,7 @@ private:
     QVector <double> Yin;
     QVector <double> Xout;
     QVector <double> Yout;
-    int n = 21;
+    int n = 10;
     int N;
     int INTERIUM_COUNT = 5;   //количество значений между соседними иксами
     double t;   //период

@@ -242,10 +242,11 @@ ApplicationWindow {
 //                width: parent.width / 2
                 text: qsTr("")
                 anchors.right: parent.right
-//                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.margins: 5
-                anchors.bottom: buttonInterpolate.top
+                anchors.left: chart.right
+                anchors.top: chart.top
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.bottom: chart.bottom
                 width: parent.width / 2
         //        anchors.bottomMargin: 5
 
@@ -256,22 +257,19 @@ ApplicationWindow {
                     anchors.fill: parent
                     color: "white"
                 }
-
-
             }
 
             ChartView {
                 id: chart
 
                 title: "График"
-//                anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.margins: 5
                 anchors.bottom: buttonInterpolate.top
                 antialiasing: true
 
-                width: parent.width / 2
+                width: parent.width / 2 - 2
 
                 ValueAxis {
                      id: axisX
