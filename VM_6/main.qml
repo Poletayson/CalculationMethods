@@ -229,7 +229,7 @@ ApplicationWindow {
 
 
         Page {
-            id: pageRecords
+            id: pageFurie
 
             background: Rectangle {
                 anchors.fill: parent
@@ -239,52 +239,60 @@ ApplicationWindow {
             TextArea {
                 id: textAreaFurie
 
-//                width: parent.width / 2
                 text: qsTr("")
                 anchors.right: parent.right
-//                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.margins: 5
-                anchors.bottom: buttonInterpolate.top
+                anchors.left: chart.right
+                anchors.top: chart.top
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.bottom: chart.bottom
                 width: parent.width / 2
-        //        anchors.bottomMargin: 5
 
-//                anchors.top: parent.top
-//                anchors.topMargin: 5
                 clip: true
                 background: Rectangle {
                     anchors.fill: parent
                     color: "white"
                 }
-
-
             }
 
             ChartView {
                 id: chart
 
                 title: "График"
-//                anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.margins: 5
                 anchors.bottom: buttonInterpolate.top
                 antialiasing: true
 
-                width: parent.width / 2
+                width: parent.width / 2 - 2
 
+                ValueAxis {
+                     id: axisX
+                     min:0
+                     max:3.4
+//                     tickCount: xAxisCount+1
+                     labelsColor: "black"}
+                 ValueAxis {
+                     id: axisY
+                     min:0
+                     max: 1.1
+//                     tickCount: 1
+                    }
+
+                 ScatterSeries {
+                     id: scatterSeriesTop
+                     axisX: axisX
+                     axisY: axisY
+                     }
 
                 LineSeries {
                     id: lineInterpolated
 
-//                    name: "LineSeries"
-//                    XYPoint { x: 0; y: 0 }
-//                    XYPoint { x: 1.1; y: 2.1 }
-//                    XYPoint { x: 1.9; y: 3.3 }
-//                    XYPoint { x: 2.1; y: 2.1 }
-//                    XYPoint { x: 2.9; y: 4.9 }
-//                    XYPoint { x: 3.4; y: 3.0 }
-//                    XYPoint { x: 4.1; y: 3.3 }
+                }
+                LineSeries {
+                    id: lineReal
+
                 }
             }
 
@@ -296,27 +304,150 @@ ApplicationWindow {
                 anchors.leftMargin: 5
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 5
-//                anchors.right: textAreaLU.left
-//                anchors.rightMargin: 5
-//                anchors.top: textFieldW.top
                 text: qsTr("Решить")
 
                 onClicked: {
                     furieInterpolator.calculate()
                     var X = furieInterpolator.getXout()
                     var Y = furieInterpolator.getYout()
+                    var Yr = furieInterpolator.getYRight()
 
                     lineInterpolated.clear()
                     for (var i = 0; i < X.length; i++){
 
                         lineInterpolated.append(X[i], Y[i])
-                        //lineInterpolated.
                     }
+
+                    lineReal.clear()
+                    for (var i = 0; i < X.length; i++){
+
+                        lineReal.append(X[i], Yr[i])
+                    }
+
                     textAreaFurie.text = furieInterpolator.getSolution()
 
                 }
             }
         }
+
+        //нахождение экстремумов
+        Page {
+            id: pageExtremum
+
+            background: Rectangle {
+                anchors.fill: parent
+                color: "gray"
+            }
+
+            TextArea {
+                id: textAreaExtremum
+
+                text: qsTr("")
+                anchors.right: parent.right
+                anchors.left: chartExtremum.right
+                anchors.top: chartExtremum.top
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.bottom: chartExtremum.bottom
+                width: parent.width / 2
+
+                clip: true
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: "white"
+                }
+            }
+
+            ChartView {
+                id: chartExtremum
+
+                title: "График"
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: 5
+                anchors.bottom: buttonExtremum.top
+                antialiasing: true
+
+                width: parent.width / 2 - 2
+
+                ValueAxis {
+                     id: axisXExt
+                     min: -10
+                     max: 10
+//                     tickCount: xAxisCount+1
+                     labelsColor: "black"}
+                 ValueAxis {
+                     id: axisYExt
+                     min:0
+                     max: 20
+//                     tickCount: 1
+                    }
+
+                 ScatterSeries {
+                     id: scatterSeriesExt
+
+                     axisX: axisXExt
+                     axisY: axisYExt
+
+//                     XYPoint {
+//                         id: extremum
+
+//                         x: 5
+//                         y: 5
+//                     }
+                     }
+
+                LineSeries {
+                    id: lineExtremum
+
+                }
+//                LineSeries {
+//                    id: pointExtremum
+
+
+//                }
+            }
+
+
+
+            Button {
+                id: buttonExtremum
+
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 5
+                text: qsTr("Решить")
+
+                onClicked: {
+                    extremumSearch.calculate()
+                    var X = extremumSearch.getVariable(0)
+                    var Y = extremumSearch.getValues(0)
+                    var Z = extremumSearch.getZExtremum()
+                    var Ext = extremumSearch.getExtremum()
+
+                    lineExtremum.clear()
+                    for (var i = 0; i < X.length; i++){
+
+                        lineExtremum.append(X[i], Y[i])
+                        //lineInterpolated.
+                    }
+//                    pointExtremum.clear()
+//                    pointExtremum.append(Ext[0], Z)
+                    scatterSeriesExt.clear()
+                    scatterSeriesExt.append(Ext[0], Z)
+
+
+//                    extremum.x = Ext[0]
+//                    extremum.y = Z
+
+                    textAreaExtremum.text = extremumSearch.getSolution()
+
+                }
+            }
+        }
+
+
     }
 }
 

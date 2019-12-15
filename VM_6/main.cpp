@@ -6,6 +6,7 @@
 #include <relaxcalculator.h>
 #include <mindiscrepancycalculator.h>
 #include <furieinterpolator.h>
+#include <extremumsearch.h>
 
 int main(int argc, char *argv[])
 {
@@ -28,10 +29,12 @@ int main(int argc, char *argv[])
     RelaxCalculator *relaxCalc = new RelaxCalculator ();
     MinDiscrepancyCalculator *minDiscCalc = new MinDiscrepancyCalculator ();
     FurieInterpolator *furieInterpolator = new FurieInterpolator ();
+    ExtremumSearch *extremumSearch = new ExtremumSearch ();
     engine.rootContext()->setContextProperty ("calculator", calculator);
     engine.rootContext()->setContextProperty ("relaxCalculator", relaxCalc);
     engine.rootContext()->setContextProperty ("minDiscCalc", minDiscCalc);
     engine.rootContext()->setContextProperty ("furieInterpolator", furieInterpolator);
+    engine.rootContext()->setContextProperty ("extremumSearch", extremumSearch);
     engine.load(url);
 
     return app.exec();
