@@ -11,7 +11,7 @@ ApplicationWindow {
     width: 640
     height: 480
     property alias buttonSolve: buttonSolve
-    title: currIndex == 0 ? qsTr("Решение СЛАУ") : qsTr("Интерполяция Фурье")
+    title: currIndex == 0 ? qsTr("Решение СЛАУ") : (currIndex == 1 ? qsTr("Интерполяция Фурье") : qsTr("Экстремум поверхности"))
 
 
     property var headerHeight: 0
@@ -272,11 +272,14 @@ ApplicationWindow {
                      min:0
                      max:3.4
 //                     tickCount: xAxisCount+1
+
                      labelsColor: "black"}
                  ValueAxis {
                      id: axisY
                      min:0
                      max: 1.1
+
+
 //                     tickCount: 1
                     }
 
@@ -289,10 +292,13 @@ ApplicationWindow {
                 LineSeries {
                     id: lineInterpolated
 
+                    name: "Интерполированные значения"
+
                 }
                 LineSeries {
                     id: lineReal
 
+                    name: "Реальные значения"
                 }
             }
 
@@ -389,17 +395,13 @@ ApplicationWindow {
                      axisX: axisXExt
                      axisY: axisYExt
 
-//                     XYPoint {
-//                         id: extremum
-
-//                         x: 5
-//                         y: 5
-//                     }
+                    name: "Точка экстремума"
                      }
 
                 LineSeries {
                     id: lineExtremum
 
+                    name: "Поверхность в разрезе"
                 }
 //                LineSeries {
 //                    id: pointExtremum
