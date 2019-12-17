@@ -139,7 +139,6 @@ double RelaxCalculator::maxDiscrepancy()
 void RelaxCalculator::relaxIteration()
 {
     double ptrSum;
-    //double ajk;
     for (int i = 0; i < n; i++){
         ptrSum = 0;
         for (int j = 0; j < n; j++){

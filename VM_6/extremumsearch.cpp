@@ -125,12 +125,12 @@ double ExtremumSearch::goldenSection(int coordNumber)
 }
 
 //эллиптический параболоид
-// (x+1.8)^2 /7 + (y+0.2)^2 /5.6
+// (x-y)^2 /0.7 + (y+0.2)^2 /50 - овраг, сходится тяжело
 double ExtremumSearch::functionValue(double x, double y)
 {
-    double p = 3.5, q = 2.8;
+    double p = 0.35, q = 25;
     double xOffset = 1.8, yOffset = 0.2;    //смещения
-    x += xOffset;
+    x -= y;
     y += yOffset;
     return (x * x) / (2 * p) + (y * y) / (2 * q);
 }

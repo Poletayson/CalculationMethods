@@ -68,7 +68,7 @@ ApplicationWindow {
 
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Page {
             id: pagePlans

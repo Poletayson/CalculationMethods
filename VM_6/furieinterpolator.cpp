@@ -10,7 +10,6 @@ FurieInterpolator::FurieInterpolator(QObject *parent) : QObject(parent)
         Xin.push_back(i * st);
         Yin.push_back(sin (Xin.last() * t));
     }
-
 }
 
 bool FurieInterpolator::calculate()
@@ -18,10 +17,6 @@ bool FurieInterpolator::calculate()
     QVector <Complex> A = directTransformation();    //получаем значения A
     Xout.clear();
     Yout.clear();
-
-//    n = 10;
-//    st = 1.0 / 10;
-//    t = M_PI;
 
     Xout.push_back(Xin[0]);
     Yout.push_back(Yin[0]);
@@ -43,9 +38,6 @@ bool FurieInterpolator::calculate()
         Xout.push_back((double)j / N * M_PI);
         Yout.push_back(absComplex(yTmp)/n);
     }
-//        Xout.push_back(Xin[i] * t);
-//        Yout.push_back(Yin[i]);
-//    }
 }
 
 bool FurieInterpolator::setFromFile(QString filename)
@@ -100,10 +92,6 @@ QString FurieInterpolator::getSolution()
     }
 
     QString Out = "Максимальная погрешность: " + QString::number(maxD);
-//    int c = Xout.count();
-//    for (int i = 0; i < c; i ++) {
-//        Out += QString::number(Xout[i]) + " " + QString::number(Yout[i]) + " \n";
-//    }
     return Out;
 }
 
@@ -111,7 +99,6 @@ QVector<Complex> FurieInterpolator::directTransformation()    //вычислен
 {
     QVector <Complex> A;
     Complex a;
-    //complex<double > a =  - 0.2 i
     for (int k = 0; k < n; k++){
         a = Complex (0, 0);
 

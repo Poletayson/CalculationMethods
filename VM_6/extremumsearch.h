@@ -17,12 +17,9 @@ public:
 
     explicit ExtremumSearch(QObject *parent = nullptr);
 
-
-
 signals:
 
 public slots:
-    //    bool setFromFile (QString filename);
     bool calculate ();
     QString getSolution ();
     QVector<double> getVariable(int num);
@@ -31,10 +28,6 @@ public slots:
     double getZExtremum() const;
 
 private:
-//    QVector <double> Xin;
-//    QVector <double> Yin;
-//    QVector <double> Xout;
-//    QVector <double> Yout;
     int n;
     //int INTERIUM_COUNT = 5;   //количество значений между соседними иксами
     double intervals[2][2]; //интервалы для каждой переменной
@@ -43,7 +36,7 @@ private:
     QVector<double> Variables;    //координаты т. экстремума
     QVector<double> Values;
 
-    double EPSILLON = 0.001;
+    double EPSILLON = 0.00000002;
     double EPSILLON_X = 0.001;
     double step = 0.1;
 
